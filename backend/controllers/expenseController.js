@@ -1,4 +1,4 @@
-// backend/controllers/expenseController.js
+// controllers/expenseController.js
 const Expense = require('../models/Expense');
 
 // @desc    Get all expenses
