@@ -72,7 +72,7 @@ const ExpenseForm = ({ fetchExpenses }) => {
       category,
     };
 
-    await axios.post('http://localhost:5000/api/expenses', newExpense);
+    await axios.post('https://exp-back.vercel.app/api/expenses', newExpense);
 
     setAmount('');
     setDescription('');

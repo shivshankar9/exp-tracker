@@ -70,13 +70,13 @@ const ExpenseList = ({ fetchExpenses: fetchExpensesProp }) => {
   const [expenses, setExpenses] = useState([]);
 
   const deleteExpense = async (id) => {
-    await axios.delete(`http://localhost:5000/api/expenses/${id}`);
+    await axios.delete(`https://exp-back.vercel.app/api/expenses/${id}`);
     fetchExpensesProp();
   };
 
   const fetchExpensesInternal = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/expenses');
+      const res = await axios.get('https://exp-back.vercel.app/api/expenses');
       setExpenses(res.data);
     } catch (error) {
       console.error('Error fetching expenses:', error);
