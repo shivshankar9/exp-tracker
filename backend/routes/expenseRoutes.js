@@ -1,27 +1,46 @@
-// routes/expenseRoutes.js
 const express = require('express');
 const router = express.Router();
-const {
-  getExpenses,
-  addExpense,
-  updateExpense,
-  deleteExpense
-} = require('../controllers/expenseController');
+const Expense = require('../models/Expense');
 
-// @desc    Get all expenses
-// @route   GET /api/expenses
-router.get('/', getExpenses);
+// Create an expense
+router.post('/', async (req, res) => {
+  try {
+    const newExpense = new Expense(req.body);
+    const savedExpense = await newExpense.save();
+    res.status(201).json(savedExpense);
+  } catch (error) {
+    res.status(500).json({ message: 'Error creating expense' });
+  }
+});
 
-// @desc    Add new expense
-// @route   POST /api/expenses
-router.post('/', addExpense);
+// Get all expenses
+router.get('/', async (req, res) => {
+  try {
+    const expenses = await Expense.find();
+    res.status(200).json(expenses);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching expenses' });
+  }
+});
 
-// @desc    Update an expense
-// @route   PUT /api/expenses/:id
-router.put('/:id', updateExpense);
+// Update an expense
+router.put('/:id', async (req, res) => {
+  try {
+    const updatedExpense = await Expense.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.status(200).json(updatedExpense);
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating expense' });
+  }
+});
 
-// @desc    Delete an expense
-// @route   DELETE /api/expenses/:id
-router.delete('/:id', deleteExpense);
+// Delete an expense
+router.delete('/:id', async (req, res) => {
+  try {
+    await Expense.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: 'Expense deleted' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting expense' });
+  }
+});
 
 module.exports = router;
