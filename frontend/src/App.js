@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import axios from 'axios'; // Ensure axios is imported
+import axios from 'axios';
 import ExpenseForm from './components/ExpenseForm';
 import ExpenseList from './components/ExpenseList';
 import ExpenseChart from './components/ExpenseChart';
@@ -22,6 +22,14 @@ const Header = styled.h1`
   text-align: center;
   margin-bottom: 2rem;
   color: #ff0077;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.5rem;
+  }
 `;
 
 const FormWrapper = styled.div`
@@ -29,28 +37,53 @@ const FormWrapper = styled.div`
   justify-content: center;
   margin-bottom: 2rem;
   width: 100%;
+  max-width: 600px;
+
+  @media (max-width: 768px) {
+    padding: 0 1rem;
+  }
 `;
 
 const MainContent = styled.div`
   display: flex;
+  flex-direction: row;
   width: 100%;
-  max-width: 1200px; /* Maximum width for the content */
-  gap: 2rem; /* Space between list and chart */
+  max-width: 1200px;
+  gap: 2rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 1rem;
+  }
 `;
 
 const ListWrapper = styled.div`
-  flex: 1; /* Allows the list to take up available space */
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    order: 2; /* Displays below the chart on smaller screens */
+  }
 `;
 
 const ChartWrapper = styled.div`
-  flex: 1; /* Allows the chart to take up available space */
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50vh; /* Ensure chart has enough space */
+  height: 50vh;
+
+  @media (max-width: 768px) {
+    order: 1; /* Displays above the list on smaller screens */
+    height: 40vh;
+  }
+
+  @media (max-width: 480px) {
+    height: 30vh;
+  }
 `;
 
 function App() {
@@ -77,7 +110,7 @@ function App() {
       </FormWrapper>
       <MainContent>
         <ListWrapper>
-          <ExpenseList fetchExpenses={fetchExpenses} />
+          <ExpenseList expenses={expenses} fetchExpenses={fetchExpenses} />
         </ListWrapper>
         <ChartWrapper>
           <ExpenseChart expenses={expenses} />
