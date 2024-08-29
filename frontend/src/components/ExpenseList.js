@@ -6,63 +6,103 @@ const Container = styled.div`
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #333; /* Dark background */
-  color: #f9f9f9; /* Light text color */
+  background-color: #333;
+  color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Prevents overflow issues */
+
+  @media (max-width: 480px) {
+    padding: 10px;
+    width: calc(100% - 20px); /* Keeps content within the screen bounds */
+  }
 `;
 
 const Heading = styled.h2`
   margin-bottom: 20px;
   font-size: 24px;
   text-align: center;
+
+  @media (max-width: 480px) {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
 `;
 
 const ListContainer = styled.div`
-  background-color: #444; /* Dark background for list */
+  background-color: #444;
   padding: 10px;
   border-radius: 4px;
+  overflow-x: auto; /* Enables horizontal scrolling if necessary */
+
+  @media (max-width: 480px) {
+    padding: 8px;
+  }
 `;
 
 const HeaderRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
   padding: 10px;
-  border-bottom: 1px solid #555; /* Light border for separation */
-  color: #f9f9f9; /* Light text color */
+  border-bottom: 1px solid #555;
+  color: #f9f9f9;
   font-weight: bold;
-  background-color: #555; /* Slightly lighter background for headers */
+  background-color: #555;
   border-radius: 4px;
-  margin-bottom: 10px; /* Space between header and first item */
+  margin-bottom: 10px;
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr 1fr; /* Adjust to two columns for smaller screens */
+    gap: 3px;
+    padding: 5px;
+  }
 `;
 
 const Item = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
   padding: 10px;
-  border-bottom: 1px solid #555; /* Light border for separation */
-  color: #f9f9f9; /* Light text color */
+  border-bottom: 1px solid #555;
+  color: #f9f9f9;
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr 1fr;
+    gap: 3px;
+    padding: 5px;
+  }
 `;
 
 const ItemText = styled.div`
-  flex: 1;
   text-align: center;
-  margin-right: 10px; /* Gap between columns */
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  @media (max-width: 480px) {
+    font-size: 12px;
+    text-align: left;
+  }
 `;
 
 const DeleteButton = styled.button`
-  padding: 8px 12px;
+  padding: 8px;
   border: none;
   border-radius: 4px;
-  background-color: #f44336; /* Red background */
+  background-color: #f44336;
   color: white;
-  font-size: 14px;
+  font-size: 12px;
   cursor: pointer;
+  width: 100%;
 
   &:hover {
-    background-color: #d32f2f; /* Darker red on hover */
+    background-color: #d32f2f;
+  }
+
+  @media (max-width: 480px) {
+    padding: 5px;
   }
 `;
 
@@ -70,8 +110,12 @@ const ExpenseList = ({ fetchExpenses: fetchExpensesProp }) => {
   const [expenses, setExpenses] = useState([]);
 
   const deleteExpense = async (id) => {
-    await axios.delete(`http://localhost:5000/api/expenses/${id}`);
-    fetchExpensesProp();
+    try {
+      await axios.delete(`http://localhost:5000/api/expenses/${id}`);
+      fetchExpensesProp();
+    } catch (error) {
+      console.error('Error deleting expense:', error);
+    }
   };
 
   const fetchExpensesInternal = async () => {
