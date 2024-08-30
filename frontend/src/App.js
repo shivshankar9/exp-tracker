@@ -51,10 +51,6 @@ const MainContent = styled.div`
   max-width: 1200px;
   gap: 2rem;
 
-  @media (max-width: 768px) {
-    flex-direction: column;
-    gap: 1rem;
-  }
 `;
 
 const ListWrapper = styled.div`
@@ -76,14 +72,6 @@ const ChartWrapper = styled.div`
   align-items: center;
   height: 50vh;
 
-  @media (max-width: 768px) {
-    order: 1; /* Displays above the list on smaller screens */
-    height: 40vh;
-  }
-
-  @media (max-width: 480px) {
-    height: 30vh;
-  }
 `;
 
 function App() {
@@ -91,10 +79,16 @@ function App() {
 
   const fetchExpenses = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/expenses');
+      const response = await axios.get('http://expense-tracker-backend-ekx1pve4u-shivs-projects-db2d52eb.vercel.app/api/expenses/');
       setExpenses(response.data);
     } catch (error) {
-      console.error('Error fetching expenses:', error);
+      if (error.response) {
+        console.error('Server responded with an error:', error.response.data);
+      } else if (error.request) {
+        console.error('No response received from server:', error.request);
+      } else {
+        console.error('Error setting up the request:', error.message);
+      }
     }
   };
 
