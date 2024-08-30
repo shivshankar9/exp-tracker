@@ -10,24 +10,40 @@ const Container = styled.div`
   color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Prevents overflow issues */
+
+  @media (max-width: 480px) {
+    padding: 10px;
+    width: calc(100% - 20px); /* Keeps content within the screen bounds */
+  }
 `;
 
 const Heading = styled.h2`
   margin-bottom: 20px;
   font-size: 24px;
   text-align: center;
+
+  @media (max-width: 480px) {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
 `;
 
 const ListContainer = styled.div`
   background-color: #444;
   padding: 10px;
   border-radius: 4px;
+  overflow-x: auto; /* Enables horizontal scrolling if necessary */
+
+  @media (max-width: 480px) {
+    padding: 8px;
+  }
 `;
 
 const HeaderRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
   padding: 10px;
   border-bottom: 1px solid #555;
   color: #f9f9f9;
@@ -35,39 +51,41 @@ const HeaderRow = styled.div`
   background-color: #555;
   border-radius: 4px;
   margin-bottom: 10px;
+
 `;
 
 const Item = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
   padding: 10px;
   border-bottom: 1px solid #555;
   color: #f9f9f9;
-`;
+
+
 
 const ItemText = styled.div`
-  flex: 1;
   text-align: center;
-  margin-right: 10px;
-`;
+
+
 
 const DeleteButton = styled.button`
-  padding: 8px 12px;
+  padding: 8px;
   border: none;
   border-radius: 4px;
   background-color: #f44336;
   color: white;
-  font-size: 14px;
+  font-size: 12px;
   cursor: pointer;
+  width: 100%;
 
   &:hover {
     background-color: #d32f2f;
-  }
-`;
+
 
 const ExpenseList = ({ expenses, fetchExpenses }) => {
   const deleteExpense = async (id) => {
+
     try {
       await axios.delete(`http://expense-tracker-backend-ekx1pve4u-shivs-projects-db2d52eb.vercel.app/api/expenses/${id}`);
       fetchExpenses();  // Re-fetch the expenses after deleting

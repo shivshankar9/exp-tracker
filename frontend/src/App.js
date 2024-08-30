@@ -22,6 +22,14 @@ const Header = styled.h1`
   text-align: center;
   margin-bottom: 2rem;
   color: #ff0077;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.5rem;
+  }
 `;
 
 const FormWrapper = styled.div`
@@ -29,13 +37,20 @@ const FormWrapper = styled.div`
   justify-content: center;
   margin-bottom: 2rem;
   width: 100%;
+  max-width: 600px;
+
+  @media (max-width: 768px) {
+    padding: 0 1rem;
+  }
 `;
 
 const MainContent = styled.div`
   display: flex;
+  flex-direction: row;
   width: 100%;
   max-width: 1200px;
   gap: 2rem;
+
 `;
 
 const ListWrapper = styled.div`
@@ -43,6 +58,11 @@ const ListWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    order: 2; /* Displays below the chart on smaller screens */
+  }
 `;
 
 const ChartWrapper = styled.div`
@@ -51,6 +71,7 @@ const ChartWrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 50vh;
+
 `;
 
 function App() {
