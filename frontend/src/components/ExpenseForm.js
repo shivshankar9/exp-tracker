@@ -3,58 +3,58 @@ import axios from 'axios';
 import styled from 'styled-components';
 
 const FormContainer = styled.div`
-  max-width: 1000px; /* Increased width */
+  max-width: 1000px;
   margin: 0 auto;
   padding: 20px;
   border-radius: 8px;
-  background-color: #333; /* Dark background */
-  color: #f9f9f9; /* Light text color */
+  background-color: #333;
+  color: #f9f9f9;
 `;
 
 const Form = styled.form`
   display: flex;
-  flex-wrap: wrap; /* Allows elements to wrap to the next line if necessary */
-  align-items: center; /* Vertically aligns items */
-  justify-content: center; /* Center items horizontally */
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Input = styled.input`
-  margin-right: 15px; /* Space between inputs */
+  margin-right: 15px;
   padding: 12px;
-  border: 1px solid #555; /* Dark border */
+  border: 1px solid #555;
   border-radius: 4px;
   font-size: 16px;
-  background-color: #444; /* Dark input background */
-  color: #f9f9f9; /* Light text color */
-  flex: 1; /* Allows inputs to take up remaining space */
-  min-width: 150px; /* Ensures inputs have a minimum width */
+  background-color: #444;
+  color: #f9f9f9;
+  flex: 1;
+  min-width: 150px;
 `;
 
 const Label = styled.label`
-  margin-right: 15px; /* Space between label and input */
+  margin-right: 15px;
   font-weight: bold;
-  color: #f9f9f9; /* Light text color */
-  min-width: 100px; /* Ensures labels have a minimum width */
+  color: #f9f9f9;
+  min-width: 100px;
 `;
 
 const ButtonWrapper = styled.div`
   display: flex;
-  justify-content: center; /* Center the button within the wrapper */
+  justify-content: center;
   width: 100%;
-  margin-top: 15px; /* Space above the button */
+  margin-top: 15px;
 `;
 
 const Button = styled.button`
   padding: 12px;
   border: none;
   border-radius: 4px;
-  background-color: #4caf50; /* Primary button color */
+  background-color: #4caf50;
   color: white;
   font-size: 16px;
   cursor: pointer;
 
   &:hover {
-    background-color: #45a049; /* Darker button color on hover */
+    background-color: #45a049;
   }
 `;
 
@@ -72,12 +72,15 @@ const ExpenseForm = ({ fetchExpenses }) => {
       category,
     };
 
-    await axios.post('http://localhost:5000/api/expenses', newExpense);
-
-    setAmount('');
-    setDescription('');
-    setCategory('');
-    fetchExpenses();
+    try {
+      await axios.post('http://expense-tracker-backend-ekx1pve4u-shivs-projects-db2d52eb.vercel.app/api/expenses', newExpense);
+      setAmount('');
+      setDescription('');
+      setCategory('');
+      fetchExpenses();  // Re-fetch expenses after adding a new one
+    } catch (error) {
+      console.error('Error adding expense:', error);
+    }
   };
 
   return (
@@ -92,7 +95,6 @@ const ExpenseForm = ({ fetchExpenses }) => {
           placeholder="Enter amount"
           required
         />
-
         <Label htmlFor="description">Description</Label>
         <Input
           id="description"
@@ -102,7 +104,6 @@ const ExpenseForm = ({ fetchExpenses }) => {
           placeholder="Enter description"
           required
         />
-
         <Label htmlFor="category">Category</Label>
         <Input
           id="category"
@@ -112,7 +113,6 @@ const ExpenseForm = ({ fetchExpenses }) => {
           placeholder="Enter category"
           required
         />
-
         <ButtonWrapper>
           <Button type="submit">Add Expense</Button>
         </ButtonWrapper>

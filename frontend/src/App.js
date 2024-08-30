@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import axios from 'axios'; // Ensure axios is imported
+import axios from 'axios';
 import ExpenseForm from './components/ExpenseForm';
 import ExpenseList from './components/ExpenseList';
 import ExpenseChart from './components/ExpenseChart';
@@ -34,23 +34,23 @@ const FormWrapper = styled.div`
 const MainContent = styled.div`
   display: flex;
   width: 100%;
-  max-width: 1200px; /* Maximum width for the content */
-  gap: 2rem; /* Space between list and chart */
+  max-width: 1200px;
+  gap: 2rem;
 `;
 
 const ListWrapper = styled.div`
-  flex: 1; /* Allows the list to take up available space */
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
 const ChartWrapper = styled.div`
-  flex: 1; /* Allows the chart to take up available space */
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50vh; /* Ensure chart has enough space */
+  height: 50vh;
 `;
 
 function App() {
@@ -58,10 +58,16 @@ function App() {
 
   const fetchExpenses = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/expenses');
+      const response = await axios.get('http://expense-tracker-backend-ekx1pve4u-shivs-projects-db2d52eb.vercel.app/api/expenses/');
       setExpenses(response.data);
     } catch (error) {
-      console.error('Error fetching expenses:', error);
+      if (error.response) {
+        console.error('Server responded with an error:', error.response.data);
+      } else if (error.request) {
+        console.error('No response received from server:', error.request);
+      } else {
+        console.error('Error setting up the request:', error.message);
+      }
     }
   };
 
@@ -77,7 +83,7 @@ function App() {
       </FormWrapper>
       <MainContent>
         <ListWrapper>
-          <ExpenseList fetchExpenses={fetchExpenses} />
+          <ExpenseList expenses={expenses} fetchExpenses={fetchExpenses} />
         </ListWrapper>
         <ChartWrapper>
           <ExpenseChart expenses={expenses} />

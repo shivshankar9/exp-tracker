@@ -6,8 +6,8 @@ const Container = styled.div`
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #333; /* Dark background */
-  color: #f9f9f9; /* Light text color */
+  background-color: #333;
+  color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
@@ -19,7 +19,7 @@ const Heading = styled.h2`
 `;
 
 const ListContainer = styled.div`
-  background-color: #444; /* Dark background for list */
+  background-color: #444;
   padding: 10px;
   border-radius: 4px;
 `;
@@ -29,12 +29,12 @@ const HeaderRow = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  border-bottom: 1px solid #555; /* Light border for separation */
-  color: #f9f9f9; /* Light text color */
+  border-bottom: 1px solid #555;
+  color: #f9f9f9;
   font-weight: bold;
-  background-color: #555; /* Slightly lighter background for headers */
+  background-color: #555;
   border-radius: 4px;
-  margin-bottom: 10px; /* Space between header and first item */
+  margin-bottom: 10px;
 `;
 
 const Item = styled.div`
@@ -42,53 +42,39 @@ const Item = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  border-bottom: 1px solid #555; /* Light border for separation */
-  color: #f9f9f9; /* Light text color */
+  border-bottom: 1px solid #555;
+  color: #f9f9f9;
 `;
 
 const ItemText = styled.div`
   flex: 1;
   text-align: center;
-  margin-right: 10px; /* Gap between columns */
+  margin-right: 10px;
 `;
 
 const DeleteButton = styled.button`
   padding: 8px 12px;
   border: none;
   border-radius: 4px;
-  background-color: #f44336; /* Red background */
+  background-color: #f44336;
   color: white;
   font-size: 14px;
   cursor: pointer;
 
   &:hover {
-    background-color: #d32f2f; /* Darker red on hover */
+    background-color: #d32f2f;
   }
 `;
 
-const ExpenseList = ({ fetchExpenses: fetchExpensesProp }) => {
-  const [expenses, setExpenses] = useState([]);
-
+const ExpenseList = ({ expenses, fetchExpenses }) => {
   const deleteExpense = async (id) => {
-    await axios.delete(`http://localhost:5000/api/expenses/${id}`);
-    fetchExpensesProp();
-  };
-
-  const fetchExpensesInternal = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/expenses');
-      setExpenses(res.data);
+      await axios.delete(`http://expense-tracker-backend-ekx1pve4u-shivs-projects-db2d52eb.vercel.app/api/expenses/${id}`);
+      fetchExpenses();  // Re-fetch the expenses after deleting
     } catch (error) {
-      console.error('Error fetching expenses:', error);
+      console.error('Error deleting expense:', error);
     }
   };
-
-  useEffect(() => {
-    fetchExpensesInternal();
-    const interval = setInterval(fetchExpensesInternal, 5000); // Refresh every 5 seconds
-
-    return () => clearInterval(interval); // Cleanup interval on component unmount
-  }, []);
 
   return (
     <Container>
