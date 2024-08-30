@@ -52,11 +52,6 @@ const HeaderRow = styled.div`
   border-radius: 4px;
   margin-bottom: 10px;
 
-  @media (max-width: 480px) {
-    grid-template-columns: 1fr 1fr; /* Adjust to two columns for smaller screens */
-    gap: 3px;
-    padding: 5px;
-  }
 `;
 
 const Item = styled.div`
@@ -67,25 +62,12 @@ const Item = styled.div`
   border-bottom: 1px solid #555;
   color: #f9f9f9;
 
-  @media (max-width: 480px) {
-    grid-template-columns: 1fr 1fr;
-    gap: 3px;
-    padding: 5px;
-  }
-`;
+
 
 const ItemText = styled.div`
   text-align: center;
-  font-size: 14px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 
-  @media (max-width: 480px) {
-    font-size: 12px;
-    text-align: left;
-  }
-`;
+
 
 const DeleteButton = styled.button`
   padding: 8px;
@@ -99,40 +81,18 @@ const DeleteButton = styled.button`
 
   &:hover {
     background-color: #d32f2f;
-  }
 
-  @media (max-width: 480px) {
-    padding: 5px;
-  }
-`;
 
-const ExpenseList = ({ fetchExpenses: fetchExpensesProp }) => {
-  const [expenses, setExpenses] = useState([]);
-
+const ExpenseList = ({ expenses, fetchExpenses }) => {
   const deleteExpense = async (id) => {
+
     try {
-      await axios.delete(`http://localhost:5000/api/expenses/${id}`);
-      fetchExpensesProp();
+      await axios.delete(`http://expense-tracker-backend-ekx1pve4u-shivs-projects-db2d52eb.vercel.app/api/expenses/${id}`);
+      fetchExpenses();  // Re-fetch the expenses after deleting
     } catch (error) {
       console.error('Error deleting expense:', error);
     }
   };
-
-  const fetchExpensesInternal = async () => {
-    try {
-      const res = await axios.get('http://localhost:5000/api/expenses');
-      setExpenses(res.data);
-    } catch (error) {
-      console.error('Error fetching expenses:', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchExpensesInternal();
-    const interval = setInterval(fetchExpensesInternal, 5000); // Refresh every 5 seconds
-
-    return () => clearInterval(interval); // Cleanup interval on component unmount
-  }, []);
 
   return (
     <Container>
