@@ -14,7 +14,7 @@ const Container = styled.div`
 
   @media (max-width: 480px) {
     padding: 10px;
-    width: calc(100% - 20px); /* Keeps content within the screen bounds */
+    width: calc(100% - 20px);
   }
 `;
 
@@ -33,8 +33,7 @@ const ListContainer = styled.div`
   background-color: #444;
   padding: 10px;
   border-radius: 4px;
-  overflow-x: auto; /* Enables horizontal scrolling if necessary */
-
+  overflow-x: auto;
   @media (max-width: 480px) {
     padding: 8px;
   }
@@ -88,7 +87,7 @@ const ExpenseList = ({ expenses, fetchExpenses }) => {
 
     try {
       await axios.delete(`http://expense-tracker-backend-ekx1pve4u-shivs-projects-db2d52eb.vercel.app/api/expenses/${id}`);
-      fetchExpenses();  // Re-fetch the expenses after deleting
+      fetchExpenses(); 
     } catch (error) {
       console.error('Error deleting expense:', error);
     }
