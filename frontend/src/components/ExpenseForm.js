@@ -77,7 +77,7 @@ const ExpenseForm = ({ fetchExpenses }) => {
       setAmount('');
       setDescription('');
       setCategory('');
-      fetchExpenses();  // Re-fetch expenses after adding a new one
+      fetchExpenses();  
     } catch (error) {
       console.error('Error adding expense:', error);
     }
